@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:trip_flutter_demo/dao/login_dao.dart';
 import 'package:trip_flutter_demo/util/login_button.dart';
+import 'package:trip_flutter_demo/util/navigator_util.dart';
 
 import '../util/string_util.dart';
 import '../util/view_util.dart';
@@ -86,7 +88,9 @@ class _LoginPageState extends State<LoginPage> {
             // 登陆按钮
             LoginButton(
               "登陆",
-              onPressed: () {},
+              onPressed: () {
+                _login(context);
+              },
               enable: enable,
             ),
             hiSpace(20),
@@ -110,5 +114,10 @@ class _LoginPageState extends State<LoginPage> {
         enable = false;
       });
     }
+  }
+
+  void _login(context) async {
+    await LoginDao.login(username: username, password: password);
+    NavigatorUtil.goToHome(context);
   }
 }
