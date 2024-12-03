@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-
-import 'page/login_page.dart';
+import 'package:flutter_hi_cache/flutter_hi_cache.dart';
+import 'package:trip_flutter_demo/dao/login_dao.dart';
+import 'package:trip_flutter_demo/navigator/tab_navigator_page.dart';
+import 'package:trip_flutter_demo/page/login_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +19,23 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const LoginPage(),
+      home: FutureBuilder<dynamic>(
+          future: HiCache.preInit(),
+          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (LoginDao.getBoardingPass() != null) {
+                return const TabNavigatorPage();
+              } else {
+                return const LoginPage();
+              }
+            } else {
+              return const Scaffold(
+                body: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            }
+          }),
     );
   }
 }

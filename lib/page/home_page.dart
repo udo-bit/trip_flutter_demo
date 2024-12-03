@@ -10,8 +10,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  get _buildLogoutButton => ElevatedButton(
-      onPressed: () => {LoginDao.logout()}, child: const Text("登出"));
+  get _buildLogoutButton =>
+      TextButton(onPressed: () => {LoginDao.logout()}, child: const Text("登出"));
 
   @override
   Widget build(BuildContext context) {

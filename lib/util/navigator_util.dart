@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:trip_flutter_demo/navigator/tab_navigator_page.dart';
 import 'package:trip_flutter_demo/page/login_page.dart';
-
-import '../page/home_page.dart';
 
 class NavigatorUtil {
   static BuildContext? _context;
@@ -16,8 +15,8 @@ class NavigatorUtil {
 
   // 跳转首页
   static goToHome(BuildContext context) {
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => const HomePage()));
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (context) => const TabNavigatorPage()));
   }
 
   // 跳转登陆页
