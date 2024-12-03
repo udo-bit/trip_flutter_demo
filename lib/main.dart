@@ -3,6 +3,7 @@ import 'package:flutter_hi_cache/flutter_hi_cache.dart';
 import 'package:trip_flutter_demo/dao/login_dao.dart';
 import 'package:trip_flutter_demo/navigator/tab_navigator_page.dart';
 import 'package:trip_flutter_demo/page/login_page.dart';
+import 'package:trip_flutter_demo/util/screen_help.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
       home: FutureBuilder<dynamic>(
           future: HiCache.preInit(),
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+            ScreenHelper.init(context);
             if (snapshot.connectionState == ConnectionState.done) {
               if (LoginDao.getBoardingPass() != null) {
                 return const TabNavigatorPage();
