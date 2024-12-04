@@ -10,4 +10,5 @@ A new Flutter project.
 - 页面切换
 - AppBar渐变效果实现
 - 轮播图
+- 首页数据请求
 
