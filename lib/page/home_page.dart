@@ -11,7 +11,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  double appBarAlpha = 1;
+  double appBarAlpha = 0;
+  double appBarScrollOffset = 100;
   List<String> bannerList = [
     'https://img2.baidu.com/it/u=257681495,312745373&fm=253&fmt=auto&app=120&f=JPEG?w=750&h=500',
     'https://img2.baidu.com/it/u=257681495,312745373&fm=253&fmt=auto&app=120&f=JPEG?w=750&h=500',
@@ -68,6 +69,21 @@ class _HomePageState extends State<HomePage> {
   }
 
   bool _onNotification(Notification notification) {
+    if (notification is ScrollUpdateNotification && notification.depth == 0) {
+      _onScroll(notification.metrics.pixels);
+    }
     return false;
+  }
+
+  void _onScroll(double pixels) {
+    var alpha = pixels / appBarScrollOffset;
+    if (alpha < 0) {
+      alpha = 0;
+    } else if (alpha > 1) {
+      alpha = 1;
+    }
+    setState(() {
+      appBarAlpha = alpha;
+    });
   }
 }
