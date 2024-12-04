@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:trip_flutter_demo/dao/home_dao.dart';
 import 'package:trip_flutter_demo/dao/login_dao.dart';
 import 'package:trip_flutter_demo/util/navigator_util.dart';
 import 'package:trip_flutter_demo/widget/banner_widget.dart';
+
+import '../model/home_model.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,24 +14,31 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    _handleRefresh();
+  }
+
   double appBarAlpha = 0;
   double appBarScrollOffset = 100;
-  List<String> bannerList = [
-    'https://img2.baidu.com/it/u=257681495,312745373&fm=253&fmt=auto&app=120&f=JPEG?w=750&h=500',
-    'https://img2.baidu.com/it/u=257681495,312745373&fm=253&fmt=auto&app=120&f=JPEG?w=750&h=500',
-    'https://pic.rmb.bdstatic.com/bjh/news/06ea4ae7b91c824e3267dca60d938e4d.png',
-    'https://img0.baidu.com/it/u=2931243091,718249849&fm=253&fmt=auto&app=120&f=JPEG?w=569&h=427',
-  ];
+
+  List<CommonModel> bannerListModel = [];
+  List<CommonModel> localNavListModel = [];
+  List<CommonModel> subNavListModel = [];
+  GridNav? gridNavModel;
+  SalesBox? salesBoxModel;
+
   get _buildLogoutButton =>
       TextButton(onPressed: () => {LoginDao.logout()}, child: const Text("登出"));
 
   get _listView => ListView(
         children: [
-          BannerWidget(bannerList),
+          BannerWidget(bannerListModel),
           _buildLogoutButton,
-          const SizedBox(
+          SizedBox(
             height: 800,
-            child: Text("首页内容"),
+            child: Text(gridNavModel?.hotel?.item3?.title ?? ""),
           )
         ],
       );
@@ -85,5 +95,20 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       appBarAlpha = alpha;
     });
+  }
+
+  void _handleRefresh() async {
+    HomeModel result = await HomeDao.fetch();
+    try {
+      setState(() {
+        bannerListModel = result.bannerList ?? [];
+        localNavListModel = result.localNavList ?? [];
+        subNavListModel = result.subNavList ?? [];
+        gridNavModel = result.gridNav;
+        salesBoxModel = result.salesBox;
+      });
+    } catch (e) {
+      throw Exception('服务器异常');
+    }
   }
 }

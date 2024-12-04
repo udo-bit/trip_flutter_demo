@@ -1,9 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:trip_flutter_demo/model/home_model.dart';
 import 'package:trip_flutter_demo/util/screen_help.dart';
 
 class BannerWidget extends StatefulWidget {
-  final List<String> bannerList;
+  final List<CommonModel> bannerList;
   const BannerWidget(
     this.bannerList, {
     super.key,
@@ -40,11 +41,11 @@ class _BannerWidgetState extends State<BannerWidget> {
     );
   }
 
-  Widget _buildItem(String item, double width) {
+  Widget _buildItem(CommonModel item, double width) {
     return GestureDetector(
       onTap: () {},
       child: Image.network(
-        item,
+        item.icon!,
         width: width,
         fit: BoxFit.cover,
       ),
